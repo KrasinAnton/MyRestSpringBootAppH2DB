@@ -1,5 +1,6 @@
 package ru.example.MyRestSpringBootAppH2DB.service;
 
+//import ru.example.MyRestSpringBootAppH2DB.dao.DisciplineDAO;
 import ru.example.MyRestSpringBootAppH2DB.dao.DisciplineDAO;
 import ru.example.MyRestSpringBootAppH2DB.entity.Discipline;
 import org.springframework.beans.factory.annotation.Autowired;

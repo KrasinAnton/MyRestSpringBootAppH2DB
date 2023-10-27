@@ -12,8 +12,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/")
 public class MyController {
+    private final StudentService studentService;
+
     @Autowired
-    private StudentService studentService;
+    public MyController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
 
     @GetMapping("/students")
@@ -40,20 +44,20 @@ public class MyController {
     public ResponseEntity<String> saveStudent(@RequestBody Student student) {
         Student savedStudent = studentService.saveStudent(student);
         if (savedStudent != null) {
-            return new ResponseEntity<>("СТУДЕНТ ДОБАВЛЕН", HttpStatus.CREATED);
+            return new ResponseEntity<>("student added", HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>("Не удалось добавить студента", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("failed to add a student", HttpStatus.BAD_REQUEST);
         }
     }
 
 
     @PutMapping("/students")
-    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+    public ResponseEntity<String> updateStudent(@RequestBody Student student) {
         Student updatedStudent = studentService.saveStudent(student);
         if (updatedStudent != null) {
-            return new ResponseEntity<>(updatedStudent, HttpStatus.OK);
+            return new ResponseEntity<>("Student updated successfully", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Failed to update student", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -61,9 +65,9 @@ public class MyController {
     public ResponseEntity<String> deleteStudent(@PathVariable("id") int id) {
         boolean deleted = studentService.deleteStudent(id);
         if (deleted) {
-            return new ResponseEntity<>("СТУДЕНТ УДАЛЕН", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("student removed", HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>("Студент не найден", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("student removed", HttpStatus.NOT_FOUND);
         }
     }
 

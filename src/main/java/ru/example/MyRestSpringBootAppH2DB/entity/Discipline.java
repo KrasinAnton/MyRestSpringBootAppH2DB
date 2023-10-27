@@ -16,20 +16,28 @@ public class Discipline {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "subgroup")
+    private String subgroup;
 
-    // Конструкторы класса
+    @Column(name = "lecture")
+    private String lecture;
+
+    @Column(name = "practice")
+    private String practice;
+
+
     public Discipline() {
-        // Пустой конструктор по умолчанию
+
     }
 
-    public Discipline(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public Discipline(String title, String subgroup, String lecture,String practice) {
+        this.title = title;
+        this.subgroup = subgroup;
+        this.lecture = lecture;
+        this.practice = practice;
     }
 
 

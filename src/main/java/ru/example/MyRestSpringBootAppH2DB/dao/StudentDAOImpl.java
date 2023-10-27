@@ -12,18 +12,22 @@ import java.util.List;
 @Slf4j
 @Repository
 public class StudentDAOImpl implements StudentDAO {
+    private final EntityManager entityManager;
+
     @Autowired
-    private EntityManager entityManager;
+    public StudentDAOImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public List<Student> getAllStudents() {
         try {
             Query query = entityManager.createQuery("from Student");
             List<Student> allStudents = query.getResultList();
-            log.info("getAllStudents: Получено " + allStudents.size() + " студентов");
+            log.info("getAllStudents: Received " + allStudents.size() + " by students");
             return allStudents;
         } catch (Exception e) {
-            log.error("Ошибка при получении списка студентов: " + e.getMessage(), e);
+            log.error("Error when getting the list of students: " + e.getMessage(), e);
             throw e;
         }
     }
@@ -33,10 +37,10 @@ public class StudentDAOImpl implements StudentDAO {
     public Student saveStudent(Student student) {
         try {
             Student savedStudent = entityManager.merge(student);
-            log.info("Сохранен студент с ID " + savedStudent.getId());
+            log.info("Saved student with ID " + savedStudent.getId());
             return savedStudent;
         } catch (Exception e) {
-            log.error("Ошибка при сохранении студента: " + e.getMessage(), e);
+            log.error("Error when saving a student: " + e.getMessage(), e);
             throw e;
         }
     }
@@ -46,13 +50,13 @@ public class StudentDAOImpl implements StudentDAO {
         try {
             Student student = entityManager.find(Student.class, id);
             if (student != null) {
-                log.info("Получен студент с ID " + id);
+                log.info("Received a student with ID: " + id);
             } else {
-                log.info("Студент с ID " + id + " не найден");
+                log.info("Student with ID " + id + " not found");
             }
             return student;
         } catch (Exception e) {
-            log.error("Ошибка при получении студента: " + e.getMessage(), e);
+            log.error("Error when receiving a student: " + e.getMessage(), e);
             throw e;
         }
     }
@@ -64,12 +68,12 @@ public class StudentDAOImpl implements StudentDAO {
             query.setParameter("studentId", id);
             int deletedCount = query.executeUpdate();
             if (deletedCount > 0) {
-                log.info("Удален студент с ID " + id);
+                log.info("Deleted student with ID " + id);
             } else {
-                log.info("Студент с ID " + id + " не найден и не был удален");
+                log.info("Student with ID " + id + " not found and not deleted");
             }
         } catch (Exception e) {
-            log.error("Ошибка при удалении студента: " + e.getMessage(), e);
+            log.error("Error when deleting a student: " + e.getMessage(), e);
             throw e;
         }
     }

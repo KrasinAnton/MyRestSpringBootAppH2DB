@@ -12,18 +12,22 @@ import java.util.List;
 @Slf4j
 @Repository
 public class DisciplineDAOImpl implements DisciplineDAO {
-    @Autowired
-    private EntityManager entityManager;
+        private final EntityManager entityManager;
+
+        @Autowired
+        public DisciplineDAOImpl(EntityManager entityManager) {
+            this.entityManager = entityManager;
+        }
 
     @Override
     public List<Discipline> getAllDisciplines() {
         try {
             Query query = entityManager.createQuery("from Discipline");
             List<Discipline> allDisciplines = query.getResultList();
-            log.info("getAllDisciplines: Получено " + allDisciplines.size() + " дисциплин");
+            log.info("getAllDisciplines: Received " + allDisciplines.size() + " disciplines");
             return allDisciplines;
         } catch (Exception e) {
-            log.error("Ошибка при получении списка дисциплин: " + e.getMessage(), e);
+            log.error("Error when getting the list of disciplines: " + e.getMessage(), e);
             throw e;
         }
     }
@@ -32,10 +36,10 @@ public class DisciplineDAOImpl implements DisciplineDAO {
     public Discipline saveDiscipline(Discipline discipline) {
         try {
             Discipline savedDiscipline = entityManager.merge(discipline);
-            log.info("Сохранена дисциплина с ID " + savedDiscipline.getId());
+            log.info("Saved discipline with ID " + savedDiscipline.getId());
             return savedDiscipline;
         } catch (Exception e) {
-            log.error("Ошибка при сохранении дисциплины: " + e.getMessage(), e);
+            log.error("Error while maintaining discipline: " + e.getMessage(), e);
             throw e;
         }
     }
@@ -45,13 +49,13 @@ public class DisciplineDAOImpl implements DisciplineDAO {
         try {
             Discipline discipline = entityManager.find(Discipline.class, id);
             if (discipline != null) {
-                log.info("Получена дисциплина с ID " + id);
+                log.info("Received discipline with ID " + id);
             } else {
-                log.info("Дисциплина с ID " + id + " не найдена");
+                log.info("Discipline with ID " + id + " not found");
             }
             return discipline;
         } catch (Exception e) {
-            log.error("Ошибка при получении дисциплины: " + e.getMessage(), e);
+            log.error("Error in obtaining discipline: " + e.getMessage(), e);
             throw e;
         }
     }
@@ -63,12 +67,12 @@ public class DisciplineDAOImpl implements DisciplineDAO {
             query.setParameter("disciplineId", id);
             int deletedCount = query.executeUpdate();
             if (deletedCount > 0) {
-                log.info("Удалена дисциплина с ID " + id);
+                log.info("Discipline with ID removed " + id);
             } else {
-                log.info("Дисциплина с ID " + id + " не найдена и не была удалена");
+                log.info("Discipline with ID " + id + " not found and has not been deleted");
             }
         } catch (Exception e) {
-            log.error("Ошибка при удалении дисциплины: " + e.getMessage(), e);
+            log.error("Error when deleting discipline: " + e.getMessage(), e);
             throw e;
         }
     }
